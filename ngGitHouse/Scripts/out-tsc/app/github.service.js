@@ -11,20 +11,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
-var operators_1 = require("rxjs/operators");
 var GithubService = /** @class */ (function () {
     function GithubService(httpClient) {
         this.httpClient = httpClient;
+        this.baseUrl = "https://k2five.strategycopilot.com/Api/Workflow/Preview/tasks";
+        this.users = null;
     }
     GithubService.prototype.getUserRepos = function () {
-        return this.httpClient.get('https://api.github.com/users/Luiggi13/repos').
-            pipe(operators_1.map(function (item) { return item.map(function (p) { return ({
-            name: p.name,
-            stars: p.stargazers_count,
-            htmlUrl: p.html_url,
-            forks: p.forks,
-            description: p.description
-        }); }); }));
+        //let headers = new HttpHeaders({
+        //    'Content-Type': 'application/json',
+        //    'Authorization': btoa("Administrador:password")
+        //});
+        //let headers = new HttpHeaders()
+        //    .set("Authorization", "Basic QWRtaWlzdHJhZG9yOlNlcnZpZG9yMjAxOCEh");
+        var params = "json=myjson";
+        //Establecemos cabeceras
+        var headers = new http_1.HttpHeaders().set('Authorization', 'Basic ' + window.btoa(unescape(encodeURIComponent("Administrador" + ':' + "Servidor2018!!"))));
+        //this.httpClient.get('https://api.github.com/users/Luiggi13/repos', params, { headers: headers }).
+        //    pipe(
+        //        map((item: any) => item.map(p => <GitRepoInfo>
+        //            {
+        //                name: p.name,
+        //                stars: p.stargazers_count,
+        //                htmlUrl: p.html_url,
+        //                forks: p.forks,
+        //                description: p.description
+        //            })));            
+        return this.httpClient.get('https://reqres.in/api/users/2')
+            .subscribe(function (result) {
+            console.log(result);
+        }, function (err) {
+            console.log("Error- something is wrong!");
+        });
     };
     GithubService = __decorate([
         core_1.Injectable({

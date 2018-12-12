@@ -10,18 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var http_1 = require("@angular/common/http");
 var github_service_1 = require("../github.service");
 var GitreposComponent = /** @class */ (function () {
-    function GitreposComponent(githubserv) {
+    function GitreposComponent(githubserv, httpClient) {
         this.githubserv = githubserv;
+        this.httpClient = httpClient;
     }
     GitreposComponent.prototype.ngOnInit = function () {
-        this.loadGithubRepos();
+        //this.loadGithubRepos();
+        this.users = [];
+        this.tt();
     };
     GitreposComponent.prototype.loadGithubRepos = function () {
+        this.githubserv.getUserRepos();
+    };
+    GitreposComponent.prototype.tt = function () {
         var _this = this;
-        this.githubserv.getUserRepos().subscribe(function (data) {
-            _this.gitRepoList = data;
+        return this.httpClient.get('https://jsonplaceholder.typicode.com/posts').subscribe(function (data) {
+            _this.users = data;
+            console.log('añadido a la variable users -> ' + _this.users);
         });
     };
     GitreposComponent = __decorate([
@@ -30,7 +38,7 @@ var GitreposComponent = /** @class */ (function () {
             templateUrl: './gitrepos.component.html',
             styleUrls: ['./gitrepos.component.css']
         }),
-        __metadata("design:paramtypes", [github_service_1.GithubService])
+        __metadata("design:paramtypes", [github_service_1.GithubService, http_1.HttpClient])
     ], GitreposComponent);
     return GitreposComponent;
 }());
